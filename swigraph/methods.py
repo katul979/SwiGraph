@@ -4,6 +4,7 @@ from math import sin, cos, sqrt, atan2, radians
 from .models import Nodes, Connections
 
 def get_distance(lat_1, long_1, lat_2, long_2):
+    """Simply get distance between two points defined by (latitude, longitude)"""
     R = 6373.0
     lat1 = radians(lat_1)
     lon1 = radians(long_1)
@@ -17,10 +18,11 @@ def get_distance(lat_1, long_1, lat_2, long_2):
     return distance
 
 def get_nearest_node(lat, lon):
-    """Returns the nearest node from the database"""
+    """Returns the nearest node from the database, this return is dummy"""
     return Nodes.query.get(1)
 
 def ucs(start, goal, option, peak):
+    """Uniform Cost Search to get shorted path between two nodes depending on the cost"""
     q = [(0, node, [])]
     explored = {}
     while q:
@@ -38,9 +40,12 @@ def ucs(start, goal, option, peak):
     return None
 
 def get_neighbours(point):
+    """Get all neighbours of a node"""
     return Connections.query.filter_by(node_id=point.id).all()
 
 def get_cost(point, n, option):
+    """Get cost (distance or time) of travelling from one node to other,
+    'point' and 'n' will always be adjacent here"""
     cost = 0
     if option == 0:
         cost = get_distance(point.lat, point.lon, n.lat, n.lon)

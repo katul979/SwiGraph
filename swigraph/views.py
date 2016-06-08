@@ -10,6 +10,7 @@ def hello():
 
 @app.route("/nodes", methods=['GET'])
 def get_nodes():
+    """To get all the nodes"""
     nodes = []
     offset = int(request.args.get('offset', '0'))
     limit = int(request.args.get('limit', '50'))
@@ -26,19 +27,25 @@ def get_nodes():
 
 @app.route("/path", methods=['GET'])
 def get_path():
+    """to get optimum path between two points"""
     error = None
     status_code = 200
     path = []
+    # latitude and longitude of start and end point
     start_lat = float(request.args.get('start_lat', '0'))
     start_lon = float(request.args.get('start_lon', '0'))
     end_lat = float(request.args.get('end_lat', '0'))
     end_lon = float(request.args.get('end_lon', '0'))
+    # optimization option (0 : by distance, 1 : by take required to travel)
     option = int(request.args.get('option', '0'))
+    # peak hour (1 : 12-1PM, 2 : 2-3PM, 3 : 8-9PM)
     peak = int(request.args.get('peak', '1'))
     if start_lat != 0 and start_lon != 0 and end_lat != 0 and end_lon != 0:
+        # get_nearest_node in methods.py
         start = get_nearest_node(start_lat, start_lon)
         goal = get_nearest_node(end_lat, end_lon)
         if start is not None and goal is not None:
+            # ucs in methods.py
             path = ucs(start, goal, option, peak)
         else:
             error = "No Path Exists!"
