@@ -11,6 +11,10 @@ class Connections(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     node_id = db.Column(db.Integer)
     connected_to = db.Column(db.Integer)
-    time_peak_one = db.Column(db.Integer)
-    time_peak_two = db.Column(db.Integer)
-    time_peak_three = db.Column(db.Integer)
+
+class Durations(db.Model):
+    """Duration to travel connection at a given time bucket"""
+    id = db.Column(db.Integer, primary_key=True)
+    interval = db.Column(db.Integer)
+    time_req = db.Column(db.Integer)
+    connection_id = db.Column(db.Integer, db.ForeignKey('connections.id'))

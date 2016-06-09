@@ -39,14 +39,14 @@ def get_path():
     # optimization option (0 : by distance, 1 : by take required to travel)
     option = int(request.args.get('option', '0'))
     # peak hour (1 : 12-1PM, 2 : 2-3PM, 3 : 8-9PM)
-    peak = int(request.args.get('peak', '1'))
+    interval = int(request.args.get('interval', '9'))
     if start_lat != 0 and start_lon != 0 and end_lat != 0 and end_lon != 0:
         # get_nearest_node in methods.py
         start = get_nearest_node(start_lat, start_lon)
         goal = get_nearest_node(end_lat, end_lon)
         if start is not None and goal is not None:
             # ucs in methods.py
-            path = ucs(start, goal, option, peak)
+            path = ucs(start, goal, option, interval)
         else:
             error = "No Path Exists!"
             status_code = 400
